@@ -1,4 +1,5 @@
 import { Card } from "@mui/material";
+import Image from "next/image";
 
 const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
   const handlePlayerClick = () => {
@@ -19,66 +20,78 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
         padding: '3.8rem 0',
         zIndex: 2,
         transition: '200ms ease -in',
-}}
+      }}
     >
-  <div class="fut-player-card">
-    <div class="player-card-top">
-      <div class="player-master-info">
-        <div class="player-rating">
-          <span>{player.rating}</span>
-        </div>
-        <div class="player-position">
-          <span>{player.position}</span>
-        </div>
-        <div class="player-nation">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg" alt="Brasil" draggable="false" />
-        </div>
-      </div>
-      <div class="player-picture">
-        <img src={player.foto} alt={player.name} draggable="false" />
-        <div class="player-extra">
-          <span>{player.height}CM</span>
-        </div>
-      </div>
-    </div>
-    <div class="player-card-bottom">
-      <div class="player-info">
-        <div class="player-name">
-          <span>{player.name}</span>
-        </div>
-        <div class="player-features">
-          <div class="player-features-col">
-            <span>
-              <div class="player-feature-value">{player.attack}</div>
-              <div class="player-feature-title">ATK</div>
-            </span>
-            <span>
-              <div class="player-feature-value">{player.defense}</div>
-              <div class="player-feature-title">DEF</div>
-            </span>
-            <span>
-              <div class="player-feature-value">{player.block}</div>
-              <div class="player-feature-title">BLK</div>
-            </span>
+      <div className="fut-player-card">
+        <div className="player-card-top">
+          <div className="player-master-info">
+            <div className="player-rating">
+              <span>{player.rating}</span>
+            </div>
+            <div className="player-position">
+              <span>{player.position}</span>
+            </div>
+            <div className="player-nation">
+              <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg"
+                alt="Brasil"
+                width={100}
+                height={100}
+              />
+            </div>
           </div>
-          <div class="player-features-col">
-            <span>
-              <div class="player-feature-value">{player.serve}</div>
-              <div class="player-feature-title">SAQ</div>
-            </span>
-            <span>
-              <div class="player-feature-value">{player.pass}</div>
-              <div class="player-feature-title">PAS</div>
-            </span>
-            <span>
-              <div class="player-feature-value">{player.lifting}</div>
-              <div class="player-feature-title">LEV</div>
-            </span>
+          <div className="player-picture">
+            <div className="logo">
+              <Image
+                src={player.foto}
+                alt={player.name}
+                width={300}
+                height={200}
+              />
+            </div>
+            <div className="player-extra">
+              <span>{player.height}CM</span>
+            </div>
           </div>
         </div>
+        <div className="player-card-bottom">
+          <div className="player-info">
+            <div className="player-name">
+              <span>{player.name}</span>
+            </div>
+            <div className="player-features">
+              <div className="player-features-col">
+                <span>
+                  <div className="player-feature-value">{player.attack}</div>
+                  <div className="player-feature-title">ATK</div>
+                </span>
+                <span>
+                  <div className="player-feature-value">{player.defense}</div>
+                  <div className="player-feature-title">DEF</div>
+                </span>
+                <span>
+                  <div className="player-feature-value">{player.block}</div>
+                  <div className="player-feature-title">BLK</div>
+                </span>
+              </div>
+              <div className="player-features-col">
+                <span>
+                  <div className="player-feature-value">{player.serve}</div>
+                  <div className="player-feature-title">SAQ</div>
+                </span>
+                <span>
+                  <div className="player-feature-value">{player.pass}</div>
+                  <div className="player-feature-title">PAS</div>
+                </span>
+                <span>
+                  <div className="player-feature-value">{player.lifting}</div>
+                  <div className="player-feature-title">LEV</div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
     </Card >
   );
 };
