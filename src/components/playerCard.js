@@ -7,9 +7,11 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
   };
   return (
     <Card
-      className={`mb-2 p-2 ${isSelected ? 'selected' : ''}`}
+      className={"mb-2 p-2"}
       onClick={handlePlayerClick}
       style={{
+        border: isSelected ? '0px solid #ffcc00' : '',
+        boxShadow: isSelected ? '0px 0px 5px 3px #ffcc00' : '',
         position: 'relative',
         width: '300px',
         height: '485px',
