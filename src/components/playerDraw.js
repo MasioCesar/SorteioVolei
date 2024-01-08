@@ -6,6 +6,7 @@ export const PlayerDraw = ({ players }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {players.map((player, index) => (
                 <Card
+                    key={player.name}
                     className={"mb-2 p-2"}
                     style={{
                         position: 'relative',

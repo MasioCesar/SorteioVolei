@@ -10,39 +10,46 @@ const Body = () => {
     const router = useRouter();
 
     const sortearClick = () => {
-        // Cria uma cópia dos jogadores selecionados
-        const jogadoresSelecionados = [...selectedPlayers];
-        const equipe1 = [];
-        const equipe2 = [];
-    
-        // Cria uma lista de jogadores disponíveis com base nos jogadores selecionados
-        const jogadoresDisponiveis = jogadoresSelecionados.map((selectedPlayer) =>
-            playersData.find((player) => player.name === selectedPlayer)
-        );
-
-        console.log(jogadoresDisponiveis)
-    
-        // Sorteia os jogadores disponíveis para as equipes
-        while (jogadoresDisponiveis.length > 0) {
-            const jogadorIndex = Math.floor(Math.random() * jogadoresDisponiveis.length);
-            const jogadorSelecionado = jogadoresDisponiveis[jogadorIndex];
-    
-            if (equipe1.length <= equipe2.length) {
-                equipe1.push(jogadorSelecionado);
-            } else {
-                equipe2.push(jogadorSelecionado);
-            }
-    
-            jogadoresDisponiveis.splice(jogadorIndex, 1);
+        if (selectedPlayers.length < 4) {
+            alert("Selecione no mínimo 4 jogadores");
+            return;
         }
-    
-        // Redireciona para a página de equipes sorteadas com os dados das equipes
+
+        let diferencaMedia = 10;
+        let equipe1 = [];
+        let equipe2 = [];
+        const jogadoresSelecionados = [...selectedPlayers];
+
+        while (diferencaMedia > 3) {
+            equipe1 = [];
+            equipe2 = [];
+
+            const jogadoresEmbaralhados = jogadoresSelecionados
+                .map((selectedPlayer) => playersData.find((player) => player.name === selectedPlayer))
+                .sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < jogadoresEmbaralhados.length; i++) {
+                if (i % 2 === 0) {
+                    equipe1.push(jogadoresEmbaralhados[i]);
+                } else {
+                    equipe2.push(jogadoresEmbaralhados[i]);
+                }
+            }
+
+            const somaRatingEquipe1 = equipe1.reduce((acc, jogador) => acc + jogador.rating, 0);
+            const somaRatingEquipe2 = equipe2.reduce((acc, jogador) => acc + jogador.rating, 0);
+            const mediaRatingEquipe1 = somaRatingEquipe1 / equipe1.length;
+            const mediaRatingEquipe2 = somaRatingEquipe2 / equipe2.length;
+            diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
+        }
+
         router.push({
             pathname: '/teamsDrawn',
             query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
         });
     };
-    
+
+
     const handlePlayerSelection = (playerId) => {
         if (selectedPlayers.includes(playerId)) {
             setSelectedPlayers(selectedPlayers.filter((id) => id !== playerId));
