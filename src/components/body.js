@@ -10,8 +10,29 @@ const Body = () => {
   const router = useRouter();
 
   const sortearClick = () => {
-    router.push('/teamsDrawn')
-  }
+    const jogadoresDisponiveis = [...playersData];
+
+    const equipe1 = [];
+    const equipe2 = [];
+
+    while (jogadoresDisponiveis.length > 0) {
+      const jogadorIndex = Math.floor(Math.random() * jogadoresDisponiveis.length);
+      const jogadorSelecionado = jogadoresDisponiveis[jogadorIndex];
+
+      if (equipe1.length <= equipe2.length) {
+        equipe1.push(jogadorSelecionado);
+      } else {
+        equipe2.push(jogadorSelecionado);
+      }
+
+      jogadoresDisponiveis.splice(jogadorIndex, 1);
+    }
+
+    router.push({
+    pathname: '/teamsDrawn',
+    query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
+  });
+  };
 
   const handlePlayerSelection = (playerId) => {
     if (selectedPlayers.includes(playerId)) {
