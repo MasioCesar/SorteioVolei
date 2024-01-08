@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import PlayerCards from './playerCard';
 import { useRouter } from 'next/router';
 
@@ -82,6 +82,7 @@ const Body = () => {
             <Button variant="outlined" size="large" style={{ minWidth: '316px', fontSize: '25px' }} onClick={sortearClick}>
                 Realizar Sorteio
             </Button>
+            <h1 className='text-2xl text-green-400 pt-4'>Selecione quem vai jogar:</h1>
             <div className="mt-4">
                 <PlayerCards players={playersData} selectedPlayers={selectedPlayers} onPlayerSelection={handlePlayerSelection} />
             </div>
