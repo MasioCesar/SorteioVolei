@@ -1,24 +1,42 @@
 import { Card } from "@mui/material";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export const PlayerDraw = ({ players }) => {
+    const [visibleCards, setVisibleCards] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setVisibleCards((prev) => {
+                const next = prev + 1;
+                return next <= players.length ? next : prev;
+            });
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, [players]);
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {players.map((player, index) => (
                 <Card
                     key={player.name}
-                    className={"mb-2 p-2"}
+                    className={`mb-2 p-2 fut-player-card fade-in ${index < visibleCards ? "fade-in-init" : "hide"
+                        }`}
                     style={{
-                        position: 'relative',
-                        width: '300px',
-                        height: '485px',
-                        backgroundImage: `url("${player.gender === 'female' ? '/fundoF.png' : '/fundoC2.png'}")`,
-                        backgroundPosition: 'center center',
-                        backgroundSize: '100% 100%',
-                        backgroundRepeat: 'no-repeat',
-                        padding: '3.8rem 0',
-                        zIndex: 2,
-                        transition: '200ms ease -in',
+                        transition: "transform 0.5s ease",
+                        transform: `translateX(${index < visibleCards ? "0" : "-100%"})`,
+                        opacity: index < visibleCards ? 1 : 0,
+                        zIndex: index < visibleCards ? 2 : 1,
+                        position: "relative",
+                        width: "300px",
+                        height: "485px",
+                        backgroundImage: `url("${player.gender === "female" ? "/fundoF.png" : "/fundoC2.png"
+                            }")`,
+                        backgroundPosition: "center center",
+                        backgroundSize: "100% 100%",
+                        backgroundRepeat: "no-repeat",
+                        padding: "3.8rem 0",
                     }}
                 >
                     <div className="fut-player-card">
