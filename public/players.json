@@ -184,10 +184,10 @@
     "nation": "Brasil",
     "height": 178,
     "weight": 0,
-    "attack": 90,
-    "defense": 88,
+    "attack": 88,
+    "defense": 90,
     "block": 85,
-    "serve": 84,
+    "serve": 83,
     "pass": 86,
     "lifting": 76
   },
