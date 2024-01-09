@@ -37,6 +37,8 @@ export const PlayerDraw = ({ players }) => {
                         backgroundSize: "100% 100%",
                         backgroundRepeat: "no-repeat",
                         padding: "3.8rem 0",
+                        backgroundColor: "transparent",
+                        boxShadow: "none",
                     }}
                 >
                     <div className="fut-player-card">
@@ -64,6 +66,8 @@ export const PlayerDraw = ({ players }) => {
                                         alt={player.name}
                                         width={300}
                                         height={200}
+                                        style={{ width: "100%", height: "auto" }}
+                                        priority={true}
                                     />
                                 </div>
                                 <div className="player-extra">

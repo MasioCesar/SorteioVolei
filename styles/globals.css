@@ -39,13 +39,38 @@ body {
 	display: none;
 }
 
+.progress {
+	width: 100%;
+	height: 30px;
+	background-color: #000000;
+	border-radius: 4px;
+	overflow: hidden;
+	position: relative;
+}
+
+.progress-bar-inner {
+	height: 100%;
+	position: absolute;
+	top: 0;
+}
+
+.team1 {
+	left: 0;
+	background-color: #2196f3;
+}
+
+.team2 {
+	right: 0;
+	background-color: #f44336;
+}
+
+
 .cards {
 	font-family: 'Saira Semi Condensed', sans-serif;
 	font-weight: 400;
 	position: relative;
 	display: -webkit-box;
 	display: -ms-flexbox;
-	display: flex;
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
@@ -55,16 +80,6 @@ body {
 	width: 100%;
 	min-height: 700px;
 	background: url("https://media.playstation.com/is/image/SCEA/fifa-19-stadium-background-blur-01-ps4-us-08jun18?$native_nt$") no-repeat center center/cover;
-}
-
-.cards:after {
-	content: '@selimdoyranli';
-	font-size: 1rem;
-	color: #aaa;
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	z-index: 2;
 }
 
 /*

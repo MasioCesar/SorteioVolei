@@ -10,8 +10,8 @@ const Body = () => {
     const router = useRouter();
 
     const sortearClick = () => {
-        if (selectedPlayers.length < 4) {
-            alert("Selecione no mínimo 4 jogadores");
+        if (selectedPlayers.length < 6) {
+            alert("Selecione no mínimo 6 jogadores");
             return;
         }
 
@@ -23,8 +23,7 @@ const Body = () => {
         // Array para armazenar as últimas 5 combinações de equipes
         let ultimasEquipes = JSON.parse(localStorage.getItem('ultimasEquipes')) || [];
 
-        console.log(ultimasEquipes)
-        while (diferencaMedia > 3) {
+        while (diferencaMedia > 5) {
             equipe1 = [];
             equipe2 = [];
 
@@ -40,7 +39,6 @@ const Body = () => {
                 }
             }
 
-            // Verifica se as equipes são diferentes das últimas 5 combinações
             const equipesDiferentes = ultimasEquipes.every((ultimaEquipe) => {
                 const equipe1Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe2);
                 const equipe2Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe2);
@@ -48,14 +46,12 @@ const Body = () => {
             });
 
             if (equipesDiferentes) {
-                // Calcula a média de rating das equipes e a diferença de média
                 const somaRatingEquipe1 = equipe1.reduce((acc, jogador) => acc + jogador.rating, 0);
                 const somaRatingEquipe2 = equipe2.reduce((acc, jogador) => acc + jogador.rating, 0);
                 const mediaRatingEquipe1 = somaRatingEquipe1 / equipe1.length;
                 const mediaRatingEquipe2 = somaRatingEquipe2 / equipe2.length;
                 diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
 
-                // Se as equipes são diferentes das últimas 5 combinações, adiciona esta combinação à lista
                 if (ultimasEquipes.length === 5) {
                     ultimasEquipes.shift(); // Remove a combinação mais antiga
                 }

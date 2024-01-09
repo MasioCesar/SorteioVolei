@@ -49,6 +49,8 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
                 alt={player.name}
                 width={300}
                 height={200}
+                style={{ width: "auto", height: "auto" }}
+                priority={true}
               />
             </div>
             <div className="player-extra">

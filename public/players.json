@@ -144,7 +144,7 @@
     "lifting": 62
   },
   {
-    "foto": "/default.png",
+    "foto": "/morgana.png",
     "name": "Morgana",
     "gender": "female",
     "rating": 65,
@@ -160,7 +160,7 @@
     "lifting": 62
   },
   {
-    "foto": "/default.png",
+    "foto": "/rall.png",
     "name": "rall",
     "gender": "male",
     "rating": 81,
@@ -174,6 +174,22 @@
     "serve": 84,
     "pass": 84,
     "lifting": 70
+  },
+  {
+    "foto": "/isadora.png",
+    "name": "Isadora",
+    "gender": "female",
+    "rating": 72,
+    "position": "Ind",
+    "nation": "Brasil",
+    "height": 162,
+    "weight": 0,
+    "attack": 70,
+    "defense": 74,
+    "block": 60,
+    "serve": 78,
+    "pass": 74,
+    "lifting": 72
   },
   {
     "foto": "/default.png",
@@ -206,21 +222,5 @@
     "serve": 75,
     "pass": 70,
     "lifting": 64
-  },
-  {
-    "foto": "/default.png",
-    "name": "Isadora",
-    "gender": "female",
-    "rating": 72,
-    "position": "Ind",
-    "nation": "Brasil",
-    "height": 162,
-    "weight": 0,
-    "attack": 70,
-    "defense": 74,
-    "block": 60,
-    "serve": 78,
-    "pass": 74,
-    "lifting": 72
   }
 ]
