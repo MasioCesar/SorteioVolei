@@ -179,17 +179,17 @@
     "foto": "/default.png",
     "name": "Alan",
     "gender": "male",
-    "rating": 84,
+    "rating": 85,
     "position": "Ind",
     "nation": "Brasil",
     "height": 178,
     "weight": 0,
     "attack": 90,
     "defense": 88,
-    "block": 84,
-    "serve": 80,
+    "block": 85,
+    "serve": 84,
     "pass": 86,
-    "lifting": 74
+    "lifting": 76
   },
   {
     "foto": "/default.png",
