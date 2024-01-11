@@ -5,17 +5,16 @@ import { useRouter } from 'next/router';
 import { GetAllPlayers } from '../context/getPlayers';
 
 const Body = () => {
-    const router = useRouter();
     const [playersData, setPlayersData] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
-
+    const router = useRouter();
 
     GetAllPlayers(setPlayersData)
 
     if (!playersData) {
         return <div>Carregando...</div>;
     }
-
+    
     const sortearClick = () => {
         if (selectedPlayers.length < 6) {
             alert("Selecione no mínimo 6 jogadores");
@@ -69,6 +68,7 @@ const Body = () => {
 
         router.push({
             pathname: '/teamsDrawn',
+            query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
         });
     };
 
