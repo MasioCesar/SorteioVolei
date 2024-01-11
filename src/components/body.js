@@ -2,10 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextField } from "@mui/material";
 import PlayerCards from './playerCard';
 import { useRouter } from 'next/router';
+import { GetAllPlayers } from '../context/getPlayers';
 
 const Body = () => {
     const [playersData, setPlayersData] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
+
+
+    GetAllPlayers(setPlayersData)
+
+
+    if (!playersData) {
+        return <div>Carregando...</div>;
+    }
 
     const router = useRouter();
 
@@ -84,25 +93,6 @@ const Body = () => {
             setSelectedPlayers([...selectedPlayers, playerId]);
         }
     };
-
-
-
-    useEffect(() => {
-        const fetchPlayers = async () => {
-            try {
-                const response = await fetch('/players.json');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch players data');
-                }
-                const data = await response.json();
-                setPlayersData(data);
-            } catch (error) {
-                console.error('Error fetching players data:', error);
-            }
-        };
-
-        fetchPlayers();
-    }, []);
 
     return (
         <div className="text-gray-50 w-full flex flex-col items-center justify-center py-2 px-4">

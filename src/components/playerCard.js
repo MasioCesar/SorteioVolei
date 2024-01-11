@@ -28,7 +28,7 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
         <div className="player-card-top">
           <div className="player-master-info">
             <div className="player-rating">
-              <span>{player.rating}</span>
+              <span>{player.overall}</span>
             </div>
             <div className="player-position">
               <span>{player.position}</span>
@@ -45,7 +45,7 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
           <div className="player-picture">
             <div className="logo">
               <Image
-                src={player.foto}
+                src={player.imgURL}
                 alt={player.name}
                 width={300}
                 height={200}

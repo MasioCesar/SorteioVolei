@@ -1,6 +1,7 @@
 import { Card } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { GetAllPlayers } from "../context/getPlayers";
 
 export const PlayerDraw = ({ players }) => {
     const [visibleCards, setVisibleCards] = useState(0);
@@ -45,7 +46,7 @@ export const PlayerDraw = ({ players }) => {
                         <div className="player-card-top">
                             <div className="player-master-info">
                                 <div className="player-rating">
-                                    <span>{player.rating}</span>
+                                    <span>{player.overall}</span>
                                 </div>
                                 <div className="player-position">
                                     <span>{player.position}</span>
@@ -62,7 +63,7 @@ export const PlayerDraw = ({ players }) => {
                             <div className="player-picture">
                                 <div className="logo">
                                     <Image
-                                        src={player.foto}
+                                        src={player.imgURL}
                                         alt={player.name}
                                         width={300}
                                         height={200}
