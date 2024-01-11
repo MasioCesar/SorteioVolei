@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, TextField } from "@mui/material";
+import React, { useState } from 'react';
+import { Button } from "@mui/material";
 import PlayerCards from './playerCard';
 import { useRouter } from 'next/router';
 import { GetAllPlayers } from '../context/getPlayers';
