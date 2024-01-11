@@ -5,9 +5,9 @@ import { useRouter } from 'next/router';
 import { GetAllPlayers } from '../context/getPlayers';
 
 const Body = () => {
+    const router = useRouter();
     const [playersData, setPlayersData] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
-
 
     GetAllPlayers(setPlayersData)
 
@@ -15,8 +15,6 @@ const Body = () => {
     if (!playersData) {
         return <div>Carregando...</div>;
     }
-
-    const router = useRouter();
 
     const sortearClick = () => {
         if (selectedPlayers.length < 6) {
@@ -69,10 +67,7 @@ const Body = () => {
             }
         }
 
-        router.push({
-            pathname: '/teamsDrawn',
-            query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
-        });
+        router.push("/teamsDrawn")
     };
 
     function equipesSaoIguaisSemOrdem(equipeA, equipeB) {
