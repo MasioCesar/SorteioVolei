@@ -9,8 +9,8 @@ const Body = () => {
     const [playersData, setPlayersData] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
 
-    GetAllPlayers(setPlayersData)
 
+    GetAllPlayers(setPlayersData)
 
     if (!playersData) {
         return <div>Carregando...</div>;
@@ -67,7 +67,9 @@ const Body = () => {
             }
         }
 
-        router.push("/teamsDrawn")
+        router.push({
+            pathname: '/teamsDrawn',
+        });
     };
 
     function equipesSaoIguaisSemOrdem(equipeA, equipeB) {
