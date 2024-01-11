@@ -41,5 +41,23 @@ export const getPictureUser = async (userId) => {
     return url;
 };
 
+export const getRanking = async (setRanking) => {
+    const rankingRef = collection(db, "players");
+    const querySnapshot = await getDocs(rankingRef);
 
-//export const setGames
+    const ranking = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        const wins = data.wins;
+        const games = data.games;
+        const winPercentage = Math.floor((wins / games) * 100) || 0;
+        return {
+            name: data.name,
+            winPercentage: winPercentage,
+            games: games
+        };
+    });
+
+    ranking.sort((a, b) => b.winPercentage - a.winPercentage);
+
+    setRanking(ranking);
+};

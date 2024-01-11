@@ -1,5 +1,6 @@
 import { Card } from "@mui/material";
 import Image from "next/image";
+import { Ranking } from "./ranking";
 
 const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
   const handlePlayerClick = () => {
@@ -7,7 +8,7 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
   };
   return (
     <Card
-      className={"mb-2 p-2"}
+      className={"p-2"}
       onClick={handlePlayerClick}
       style={{
         border: isSelected ? '0px solid #ffcc00' : '',
@@ -112,6 +113,7 @@ const PlayerCards = ({ players, selectedPlayers, onPlayerSelection }) => {
             onPlayerSelection={onPlayerSelection}
           />
         ))}
+        <Ranking />
       </div>
     </div>
   );

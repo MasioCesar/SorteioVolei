@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import PlayerCards from './playerCard';
 import { useRouter } from 'next/router';
 import { GetAllPlayers } from '../context/getPlayers';
+import { Loader } from './loader';
 
 const Body = () => {
     const [playersData, setPlayersData] = useState([]);
@@ -12,9 +13,9 @@ const Body = () => {
     GetAllPlayers(setPlayersData)
 
     if (!playersData) {
-        return <div>Carregando...</div>;
+        return <> <Loader /> </>;
     }
-    
+
     const sortearClick = () => {
         if (selectedPlayers.length < 6) {
             alert("Selecione no mínimo 6 jogadores");
@@ -93,13 +94,20 @@ const Body = () => {
 
     return (
         <div className="text-gray-50 w-full flex flex-col items-center justify-center py-2 px-4">
-            <Button variant="outlined" size="large" style={{ minWidth: '316px', fontSize: '25px' }} onClick={sortearClick}>
-                Realizar Sorteio
-            </Button>
-            <h1 className='text-2xl text-green-400 pt-4'>Selecione quem vai jogar:</h1>
-            <div className="mt-4">
-                <PlayerCards players={playersData} selectedPlayers={selectedPlayers} onPlayerSelection={handlePlayerSelection} />
-            </div>
+            {!playersData.length && <Loader />}
+            {!!playersData.length && (
+                <>
+                    <h1 className='text-2xl text-green-400'>Selecione quem vai jogar:</h1>
+                    <div className="mt-4">
+                        <PlayerCards players={playersData} selectedPlayers={selectedPlayers} onPlayerSelection={handlePlayerSelection} />
+                    </div>
+                    <div className='py-4'>
+                        <Button variant="outlined" size="large" style={{ minWidth: '300px', fontSize: '25px' }} onClick={sortearClick}>
+                            Realizar Sorteio
+                        </Button>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

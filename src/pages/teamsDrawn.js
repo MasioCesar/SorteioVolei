@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PlayerDraw } from '../components/playerDraw';
 import Header from '../components/header';
+import { Button } from '@mui/material';
 
 const TeamsDrawn = () => {
     const router = useRouter();
@@ -92,7 +93,16 @@ const TeamsDrawn = () => {
                         <PlayerDraw players={parsedEquipe2} />
                     </div>
                 </div>
+
+                <div className='w-full justify-center flex grid-cols-2 gap-4 p-4'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
+                        <Button variant='contained' color='info' className='w-[300px]'>Time Azul</Button>
+                        <Button variant='contained' color='inherit' className='w-[300px]'>Quem Venceu?</Button>
+                        <Button variant='contained' color='error' className='w-[300px]'>Time Vermelho</Button>
+                    </div>
+                </div>
             </div>
+
         </div>
     );
 };
