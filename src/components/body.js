@@ -30,7 +30,7 @@ const Body = () => {
         // Array para armazenar as últimas 5 combinações de equipes
         let ultimasEquipes = JSON.parse(localStorage.getItem('ultimasEquipes')) || [];
 
-        while (diferencaMedia > 5) {
+        while (diferencaMedia > 6) {
             equipe1 = [];
             equipe2 = [];
 
@@ -53,10 +53,8 @@ const Body = () => {
             });
 
             if (equipesDiferentes) {
-                const somaRatingEquipe1 = equipe1.reduce((acc, jogador) => acc + jogador.rating, 0);
-                const somaRatingEquipe2 = equipe2.reduce((acc, jogador) => acc + jogador.rating, 0);
-                const mediaRatingEquipe1 = somaRatingEquipe1 / equipe1.length;
-                const mediaRatingEquipe2 = somaRatingEquipe2 / equipe2.length;
+                const mediaRatingEquipe1 = calculateOverall(equipe1);
+                const mediaRatingEquipe2 = calculateOverall(equipe2);
                 diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
 
                 if (ultimasEquipes.length === 5) {
@@ -71,6 +69,14 @@ const Body = () => {
             pathname: '/teamsDrawn',
             query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
         });
+    };
+
+    const calculateOverall = (team) => {
+        const overall = team.reduce((acc, player) => {
+            return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
+        }, 0);
+
+        return overall / team.length;
     };
 
     function equipesSaoIguaisSemOrdem(equipeA, equipeB) {
