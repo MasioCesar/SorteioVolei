@@ -73,12 +73,16 @@ export const updateGames = async (player) => {
 
 export const savedGames = async (parsedEquipe1, parsedEquipe2, winnerTeam) => {
     const gamesRef = collection(db, "games");
+    const currentDate = new Date();
+    currentDate.setHours(currentDate.getHours() - 3);
+    const isoString = currentDate.toISOString();
 
     const gameData = {
         winnerTeam: winnerTeam === 'blue' ? 'blue' : 'red',
         loserTeam: winnerTeam === 'blue' ? 'red' : 'blue',
         winningTeam: winnerTeam === 'blue' ? parsedEquipe1 : parsedEquipe2,
         losingTeam: winnerTeam === 'blue' ? parsedEquipe2 : parsedEquipe1,
+        date: isoString,
     };
 
     await addDoc(gamesRef, gameData);
