@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { collection, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
@@ -69,4 +69,18 @@ export const updateGames = async (player) => {
         games: player.games,
         wins: player.wins,
     });
+}
+
+export const savedGames = async (parsedEquipe1, parsedEquipe2, winnerTeam) => {
+    const gamesRef = collection(db, "games");
+
+    const gameData = {
+        winnerTeam: winnerTeam === 'blue' ? 'blue' : 'red',
+        loserTeam: winnerTeam === 'blue' ? 'red' : 'blue',
+        winningTeam: winnerTeam === 'blue' ? parsedEquipe1 : parsedEquipe2,
+        losingTeam: winnerTeam === 'blue' ? parsedEquipe2 : parsedEquipe1,
+    };
+
+    await addDoc(gamesRef, gameData);
+
 }

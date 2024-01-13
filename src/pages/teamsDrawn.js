@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { PlayerDraw } from '../components/playerDraw';
 import Header from '../components/header';
 import { Button } from '@mui/material';
-import { updateGames } from '../context/firebase';
+import { savedGames, updateGames } from '../context/firebase';
 
 const TeamsDrawn = () => {
     const router = useRouter();
@@ -75,6 +75,7 @@ const TeamsDrawn = () => {
                 }
                 await updateGames(player);
             }
+            savedGames(parsedEquipe1, parsedEquipe2, winnerTeam);
             
             router.push('/');
         } else {
