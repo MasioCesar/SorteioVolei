@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { PlayerDraw } from '../components/playerDraw';
 import Header from '../components/header';
 import { Button } from '@mui/material';
+import { updateGames } from '../context/firebase';
 
 const TeamsDrawn = () => {
     const router = useRouter();
@@ -59,6 +60,26 @@ const TeamsDrawn = () => {
     const parsedEquipe1 = JSON.parse(equipe1);
     const parsedEquipe2 = JSON.parse(equipe2);
 
+    const handleWinner = async (winnerTeam) => {
+        const winnerPlayers = winnerTeam === 'Azul' ? parsedEquipe1 : parsedEquipe2;
+        const allPlayers = parsedEquipe1.concat(parsedEquipe2);
+
+        const confirmed = window.confirm(`Você tem certeza que o time ${winnerTeam} venceu?`);
+
+        if (confirmed) {
+            for (const player of allPlayers) {
+                player.games = (player.games || 0) + 1;
+
+                if (winnerPlayers.find((p) => p.name === player.name)) {
+                    player.wins = (player.wins || 0) + 1;
+                }
+                await updateGames(player);
+            }
+        } else {
+            console.log("Ação cancelada pelo usuário.");
+        }
+    };
+
     return (
         <div>
             <Header />
@@ -96,9 +117,9 @@ const TeamsDrawn = () => {
 
                 <div className='w-full justify-center flex grid-cols-2 gap-4 p-4'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-                        <Button variant='contained' color='info' className='w-[300px]'>Time Azul</Button>
+                        <Button variant='contained' color='info' className='w-[300px]' onClick={() => handleWinner('Azul')}>Time Azul</Button>
                         <Button variant='contained' color='inherit' className='w-[300px]'>Quem Venceu?</Button>
-                        <Button variant='contained' color='error' className='w-[300px]'>Time Vermelho</Button>
+                        <Button variant='contained' color='error' className='w-[300px]' onClick={() => handleWinner('Vermelho')}>Time Vermelho</Button>
                     </div>
                 </div>
             </div>

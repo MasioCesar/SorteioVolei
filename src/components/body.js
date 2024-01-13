@@ -17,7 +17,7 @@ const Body = () => {
     }
 
     const sortearClick = () => {
-        if (selectedPlayers.length < 6) {
+        if (selectedPlayers.length < 2) {
             alert("Selecione no mínimo 6 jogadores");
             return;
         }

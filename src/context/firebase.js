@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
@@ -61,3 +61,12 @@ export const getRanking = async (setRanking) => {
 
     setRanking(ranking);
 };
+
+export const updateGames = async (player) => {
+    const playerIdString = player.id.toString();
+    const scoreRef = doc(db, "players", playerIdString);
+    await updateDoc(scoreRef, {
+        games: player.games,
+        wins: player.wins,
+    });
+}
