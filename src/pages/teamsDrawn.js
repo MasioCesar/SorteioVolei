@@ -64,9 +64,9 @@ const TeamsDrawn = () => {
         const winnerPlayers = winnerTeam === 'Azul' ? parsedEquipe1 : parsedEquipe2;
         const allPlayers = parsedEquipe1.concat(parsedEquipe2);
 
-        const confirmed = window.confirm(`Você tem certeza que o time ${winnerTeam} venceu?`);
+        const password = prompt(`Digite a senha para confirmar que o time ${winnerTeam} venceu`);
 
-        if (confirmed) {
+        if (password === "1234") {
             for (const player of allPlayers) {
                 player.games = (player.games || 0) + 1;
 
@@ -75,8 +75,10 @@ const TeamsDrawn = () => {
                 }
                 await updateGames(player);
             }
+            
+            router.push('/');
         } else {
-            console.log("Ação cancelada pelo usuário.");
+            console.log("Senha incorreta. Ação cancelada.");
         }
     };
 
