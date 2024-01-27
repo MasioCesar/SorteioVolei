@@ -1,7 +1,6 @@
 import { Card } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { GetAllPlayers } from "../context/getPlayers";
 
 export const PlayerDraw = ({ players }) => {
     const [visibleCards, setVisibleCards] = useState(0);
