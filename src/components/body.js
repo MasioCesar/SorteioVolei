@@ -20,7 +20,7 @@ const Body = () => {
         if (selectedPlayers.length < 6) {
             alert("Selecione no mínimo 6 jogadores");
             return;
-        }s
+        }
 
         let diferencaMedia = 20;
         let equipe1 = [];
