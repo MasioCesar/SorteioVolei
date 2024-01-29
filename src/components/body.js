@@ -14,12 +14,12 @@ const Body = () => {
     }
 
     const sortearClick = () => {
-        if (selectedPlayers.length < 2) {
+        if (selectedPlayers.length < 6) {
             alert("Selecione no mínimo 6 jogadores");
             return;
         }
 
-        let diferencaMedia = 10;
+        let diferencaMedia = 20;
         let equipe1 = [];
         let equipe2 = [];
         const jogadoresSelecionados = [...selectedPlayers];
@@ -27,7 +27,7 @@ const Body = () => {
         // Array para armazenar as últimas 5 combinações de equipes
         let ultimasEquipes = JSON.parse(localStorage.getItem('ultimasEquipes')) || [];
 
-        while (diferencaMedia > 6) {
+        while (diferencaMedia > 15) {
             equipe1 = [];
             equipe2 = [];
 
@@ -55,8 +55,11 @@ const Body = () => {
                 if (ultimasEquipes.length === 5) {
                     ultimasEquipes.shift(); // Remove a combinação mais antiga
                 }
-                ultimasEquipes.push({ equipe1, equipe2 });
-                localStorage.setItem('ultimasEquipes', JSON.stringify(ultimasEquipes));
+
+                if (diferencaMedia <= 15) {
+                    ultimasEquipes.push({ equipe1, equipe2 });
+                    localStorage.setItem('ultimasEquipes', JSON.stringify(ultimasEquipes));
+                }
             }
         }
 
@@ -77,7 +80,25 @@ const Body = () => {
         }
         const jogadoresA = equipeA.map((jogador) => jogador.name).sort();
         const jogadoresB = equipeB.map((jogador) => jogador.name).sort();
+
         return JSON.stringify(jogadoresA) === JSON.stringify(jogadoresB);
+    }
+
+    function diferentes2Jogadores(equipeA, equipeB) {
+        if (equipeA.length !== equipeB.length) {
+            return false;
+        }
+
+        const jogadoresA = equipeA.map((jogador) => jogador.name);
+        const jogadoresB = equipeB.map((jogador) => jogador.name);
+
+        let diferencaComAnterior = 0;
+        for (let i = 0; i < jogadoresA.length; i++) {
+            if (!jogadoresB.includes(jogadoresA[i])) {
+                diferencaComAnterior++;
+            }
+        }
+        return diferencaComAnterior >= 2;
     }
 
 
