@@ -48,7 +48,7 @@ const Body = () => {
             });
 
             let jogadoresDiferentes = true;
-            if (jogadoresSelecionados.length >= 8) {
+            if (jogadoresSelecionados.length >= 8 && ultimasEquipes.length > 0) {
                 const jogadoresDiferentes1 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe1);
                 const jogadoresDiferentes2 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe2);
                 jogadoresDiferentes = jogadoresDiferentes1 && jogadoresDiferentes2;
