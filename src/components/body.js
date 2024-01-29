@@ -4,11 +4,14 @@ import PlayerCards from './playerCard';
 import { useRouter } from 'next/router';
 import { GetAllPlayers } from '../context/getPlayers';
 import { Loader } from './loader';
+
 const Body = () => {
     const [playersData, setPlayersData] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
     const router = useRouter();
+
     GetAllPlayers(setPlayersData)
+
     if (!playersData) {
         return <> <Loader /> </>;
     }
@@ -34,6 +37,7 @@ const Body = () => {
             const jogadoresEmbaralhados = jogadoresSelecionados
                 .map((selectedPlayer) => playersData.find((player) => player.name === selectedPlayer))
                 .sort(() => Math.random() - 0.5);
+
             for (let i = 0; i < jogadoresEmbaralhados.length; i++) {
                 if (i % 2 === 0) {
                     equipe1.push(jogadoresEmbaralhados[i]);
@@ -41,6 +45,7 @@ const Body = () => {
                     equipe2.push(jogadoresEmbaralhados[i]);
                 }
             }
+
             const equipesDiferentes = ultimasEquipes.every((ultimaEquipe) => {
                 const equipe1Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe2);
                 const equipe2Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe2);
@@ -53,7 +58,7 @@ const Body = () => {
                 const jogadoresDiferentes2 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe2);
                 jogadoresDiferentes = jogadoresDiferentes1 && jogadoresDiferentes2;
             }
-            console.log(jogadoresDiferentes);
+
             if (equipesDiferentes && jogadoresDiferentes) {
                 const mediaRatingEquipe1 = calculateOverall(equipe1);
                 const mediaRatingEquipe2 = calculateOverall(equipe2);
@@ -62,7 +67,6 @@ const Body = () => {
                 if (ultimasEquipes.length === 5) {
                     ultimasEquipes.shift(); // Remove a combinação mais antiga
                 }
-
                 if (diferencaMedia <= 15) {
                     ultimasEquipes.push({ equipe1, equipe2 });
                     localStorage.setItem('ultimasEquipes', JSON.stringify(ultimasEquipes));
@@ -75,12 +79,15 @@ const Body = () => {
             query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
         });
     };
+
     const calculateOverall = (team) => {
         const overall = team.reduce((acc, player) => {
             return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
         }, 0);
+
         return overall / team.length;
     };
+
     function equipesSaoIguaisSemOrdem(equipeA, equipeB) {
         if (equipeA.length !== equipeB.length) {
             return false;
@@ -108,8 +115,6 @@ const Body = () => {
         return diferencaComAnterior >= 2;
     }
 
-
-
     const handlePlayerSelection = (playerId) => {
         if (selectedPlayers.includes(playerId)) {
             setSelectedPlayers(selectedPlayers.filter((id) => id !== playerId));
@@ -117,6 +122,7 @@ const Body = () => {
             setSelectedPlayers([...selectedPlayers, playerId]);
         }
     };
+
     return (
         <div className="text-gray-50 w-full flex flex-col items-center justify-center py-2 px-4">
             {!playersData.length && <Loader />}
@@ -136,4 +142,5 @@ const Body = () => {
         </div>
     );
 }
+
 export default Body;
