@@ -47,7 +47,14 @@ const Body = () => {
                 return equipe1Diferente && equipe2Diferente;
             });
 
-            if (equipesDiferentes) {
+            let jogadoresDiferentes = true;
+            if (jogadoresSelecionados.length >= 8) {
+                const jogadoresDiferentes1 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe1);
+                const jogadoresDiferentes2 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe2);
+                jogadoresDiferentes = jogadoresDiferentes1 && jogadoresDiferentes2;
+            }
+            console.log(jogadoresDiferentes);
+            if (equipesDiferentes && jogadoresDiferentes) {
                 const mediaRatingEquipe1 = calculateOverall(equipe1);
                 const mediaRatingEquipe2 = calculateOverall(equipe2);
                 diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
