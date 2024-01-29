@@ -46,17 +46,20 @@ const Body = () => {
                 }
             }
 
-            const equipesDiferentes = ultimasEquipes.every((ultimaEquipe) => {
-                const equipe1Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe2);
-                const equipe2Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe2);
-                return equipe1Diferente && equipe2Diferente;
-            });
+            let equipesDiferentes = true; // Valor padrão para quando não há equipe anterior
+            let jogadoresDiferentes = true; // Valor padrão para quando não há equipe anterior
+            if (ultimasEquipes.length > 0) {
+                equipesDiferentes = ultimasEquipes.every((ultimaEquipe) => {
+                    const equipe1Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe1, equipe2);
+                    const equipe2Diferente = !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe1) && !equipesSaoIguaisSemOrdem(ultimaEquipe.equipe2, equipe2);
+                    return equipe1Diferente && equipe2Diferente;
+                });
 
-            let jogadoresDiferentes = true;
-            if (jogadoresSelecionados.length >= 8) {
-                const jogadoresDiferentes1 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe1);
-                const jogadoresDiferentes2 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe2);
-                jogadoresDiferentes = jogadoresDiferentes1 && jogadoresDiferentes2;
+                if (jogadoresSelecionados.length >= 8) {
+                    const jogadoresDiferentes1 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe1);
+                    const jogadoresDiferentes2 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe2);
+                    jogadoresDiferentes = jogadoresDiferentes1 && jogadoresDiferentes2;
+                }
             }
 
             if (equipesDiferentes && jogadoresDiferentes) {
