@@ -2,10 +2,42 @@ import { Card } from "@mui/material";
 import Image from "next/image";
 import { Ranking } from "./ranking";
 
+export const getWeightedAverage = (player) => {
+  const weights = {
+    Cen: { attack: 1, defense: 1, block: 2, serve: 1, pass: 1, lifting: 1 },
+    Líb: { attack: 1, defense: 2, block: 1, serve: 1, pass: 1, lifting: 1 },
+    Opo: { attack: 2, defense: 1, block: 1, serve: 1, pass: 1, lifting: 1 },
+    Pon: { attack: 2, defense: 1, block: 1, serve: 1, pass: 1, lifting: 1 },
+    Lev: { attack: 1, defense: 1, block: 1, serve: 1, pass: 1, lifting: 2 },
+    Ind: { attack: 1, defense: 1, block: 1, serve: 1, pass: 1, lifting: 1 },
+  };
+
+  const weightedSum =
+    player.attack * weights[player.position].attack +
+    player.defense * weights[player.position].defense +
+    player.block * weights[player.position].block +
+    player.serve * weights[player.position].serve +
+    player.pass * weights[player.position].pass +
+    player.lifting * weights[player.position].lifting;
+
+  const totalWeight =
+    weights[player.position].attack +
+    weights[player.position].defense +
+    weights[player.position].block +
+    weights[player.position].serve +
+    weights[player.position].pass +
+    weights[player.position].lifting;
+
+  return Math.round(weightedSum / totalWeight);
+};
+
 const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
   const handlePlayerClick = () => {
     onPlayerSelection(player.name);
   };
+
+  const weightedAverage = getWeightedAverage(player);
+
   return (
     <Card
       className={"p-2"}
@@ -29,7 +61,7 @@ const PlayerCard = ({ player, isSelected, onPlayerSelection }) => {
         <div className="player-card-top">
           <div className="player-master-info">
             <div className="player-rating">
-              <span>{player.overall}</span>
+              <span>{weightedAverage}</span>
             </div>
             <div className="player-position">
               <span>{player.position}</span>

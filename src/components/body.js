@@ -27,7 +27,7 @@ const Body = () => {
         // Array para armazenar as últimas 5 combinações de equipes
         let ultimasEquipes = JSON.parse(localStorage.getItem('ultimasEquipes')) || [];
 
-        while (diferencaMedia > 15) {
+        while (diferencaMedia > 10) {
             equipe1 = [];
             equipe2 = [];
 
@@ -53,16 +53,27 @@ const Body = () => {
                 const jogadoresDiferentes2 = diferentes2Jogadores(ultimasEquipes[ultimasEquipes.length - 1].equipe1, equipe2);
                 jogadoresDiferentes = jogadoresDiferentes1 && jogadoresDiferentes2;
             }
+
             if (equipesDiferentes && jogadoresDiferentes) {
                 const mediaRatingEquipe1 = calculateOverall(equipe1);
                 const mediaRatingEquipe2 = calculateOverall(equipe2);
-                diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
+                const totalTeam1 = equipe1.reduce((acc, player) => {
+                    return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
+                }, 0);
+                const totalTeam2 = equipe2.reduce((acc, player) => {
+                    return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
+                }, 0);
 
-                if (ultimasEquipes.length === 5) {
-                    ultimasEquipes.shift(); // Remove a combinação mais antiga
+                diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
+                
+                if (totalTeam1 - totalTeam2 > 425) {
+                    diferencaMedia = 20;
                 }
 
-                if (diferencaMedia <= 15) {
+                if (diferencaMedia <= 10) {
+                    if (ultimasEquipes.length === 5) {
+                        ultimasEquipes.shift(); // Remove a combinação mais antiga
+                    }
                     ultimasEquipes.push({ equipe1, equipe2 });
                     localStorage.setItem('ultimasEquipes', JSON.stringify(ultimasEquipes));
                 }
@@ -91,10 +102,6 @@ const Body = () => {
     }
 
     function diferentes2Jogadores(equipeA, equipeB) {
-        if (equipeA.length !== equipeB.length) {
-            return false;
-        }
-
         const jogadoresA = equipeA.map((jogador) => jogador.name);
         const jogadoresB = equipeB.map((jogador) => jogador.name);
 
