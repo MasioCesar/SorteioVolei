@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { format } from 'date-fns';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -88,3 +89,21 @@ export const savedGames = async (parsedEquipe1, parsedEquipe2, winnerTeam) => {
     await addDoc(gamesRef, gameData);
 
 }
+
+export const getGamesHistory = async (setGamesHistory) => {
+    const gamesRef = collection(db, "games");
+    const q = query(gamesRef, orderBy("date", "desc"));
+    const querySnapshot = await getDocs(q);
+    const gamesHistory = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+            winnerTeam: data.winnerTeam,
+            loserTeam: data.loserTeam,
+            winningTeam: data.winningTeam,
+            losingTeam: data.losingTeam,
+            date: format(new Date(data.date), 'dd/MM/yyyy HH:mm:ss')
+        };
+    });
+
+    setGamesHistory(gamesHistory);
+};

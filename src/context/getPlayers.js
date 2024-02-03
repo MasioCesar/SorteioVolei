@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPlayers, getRanking } from "./firebase";
+import { getGamesHistory, getPlayers, getRanking } from "./firebase";
 
 export const GetAllPlayers = (setAllPlayers) => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +27,21 @@ export const GetRanking = (setRanking) => {
     useEffect(() => {
         if (!isLoaded) {
             Ranking();
+        }
+    }, [isLoaded]);
+}
+
+export const GetGamesHistory = (setGamesHistory) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const gamesHistory = () => {
+        getGamesHistory(setGamesHistory);
+        setIsLoaded(true);
+    }
+
+    useEffect(() => {
+        if (!isLoaded) {
+            gamesHistory();
         }
     }, [isLoaded]);
 }
