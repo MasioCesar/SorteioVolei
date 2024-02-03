@@ -101,7 +101,7 @@ export const getGamesHistory = async (setGamesHistory) => {
             loserTeam: data.loserTeam,
             winningTeam: data.winningTeam,
             losingTeam: data.losingTeam,
-            date: format(new Date(data.date), 'dd/MM/yyyy HH:mm:ss')
+            date: format(new Date(data.date).setHours(new Date(data.date).getHours() + 3), 'dd/MM/yyyy HH:mm:ss')
         };
     });
 
