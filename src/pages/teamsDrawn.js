@@ -76,7 +76,7 @@ const TeamsDrawn = () => {
                 await updateGames(player);
             }
             savedGames(parsedEquipe1, parsedEquipe2, winnerTeam);
-            
+
             router.push('/');
         } else {
             console.log("Senha incorreta. Ação cancelada.");
@@ -92,19 +92,24 @@ const TeamsDrawn = () => {
                         <h2 className='text-2xl text-yellow-300 font-bold flex justify-center pb-2'>Probabilidade de vitória</h2>
                         <div className="progress p-4">
                             <div
-                                className="progress-bar-inner team1 items-center flex justify-center text-yellow-300 font-bold"
+                                className="progress-bar-inner team1 items-center flex justify-center text-gray-200 font-bold"
                                 style={{ width: `${winPercentage1}%` }}
                             >{winPercentage1}%</div>
                             <div
-                                className="progress-bar-inner team2 items-center flex justify-center text-yellow-300 font-bold"
+                                className="progress-bar-inner team2 items-center flex justify-center text-gray-200 font-bold"
                                 style={{ width: `${winPercentage2}%` }}
                             >{winPercentage2}%</div>
                         </div>
                     </div>
                 </div>
                 <div className="w-full flex justify-center">
-                    <div className="flex grid-cols-2 gap-4">
-                        <PlayerDraw players={parsedEquipe1} />
+                    <div className='flex grid-cols-2 gap-4'>
+                        <div className='flex-1'>
+                            <div className='bg-[#2196F3] p-2 rounded-t-md bold text-2xl text-gray-100'>Time Azul</div>
+                            <div className="border-2 px-10 border-[#2196F3] rounded-b-md pt-2">
+                                <PlayerDraw players={parsedEquipe1} />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -113,8 +118,13 @@ const TeamsDrawn = () => {
                     : ''}
 
                 <div className="w-full flex justify-center">
-                    <div className="flex grid-cols-2 gap-4">
-                        <PlayerDraw players={parsedEquipe2} />
+                    <div className='flex grid-cols-2 gap-4'>
+                        <div className='flex-1'>
+                        <div className='bg-[#F44336] p-2 rounded-t-md bold text-2xl text-gray-100'>Time Vermelho</div>
+                            <div className="border-2 px-10 border-[#F44336] rounded-b-md pt-2">
+                                <PlayerDraw players={parsedEquipe2} />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
