@@ -70,9 +70,6 @@ const Body = () => {
                 
                 diferencaMedia = Math.abs(mediaRatingEquipe1 - mediaRatingEquipe2);
 
-                console.log(`Interacao: ${iteracoes}`,diferencaMedia);
-                console.log("Time diff: ",totalTeam1 - totalTeam2)
-
                 if (iteracoes > 200) {
                     if (totalTeam1 - totalTeam2 >= 460) {
                         diferencaMedia = 20;
@@ -105,7 +102,6 @@ const Body = () => {
     
     const calculateOverall = (team) => {
         const overall = team.reduce((acc, player) => {
-            console.log(player.attack, player.defense, player.block, player.serve, player.pass, player.lifting)
             return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
         }, 0);
         return overall / team.length;
