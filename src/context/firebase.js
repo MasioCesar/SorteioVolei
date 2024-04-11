@@ -107,3 +107,18 @@ export const getGamesHistory = async (setGamesHistory) => {
 
     setGamesHistory(gamesHistory);
 };
+
+export const getTeams = async (team) => {
+    const teamPlayers = [];
+    const teamsRef = collection(db, 'players');
+    const querySnapshot = await getDocs(teamsRef);
+
+    querySnapshot.forEach((doc) => {
+        const player = doc.data();
+        if (team.includes(player.name)) {
+            teamPlayers.push(player);
+        }
+    });
+
+    return teamPlayers;
+};

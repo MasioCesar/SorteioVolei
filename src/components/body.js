@@ -22,6 +22,8 @@ const Body = () => {
         let diferencaMedia = 20;
         let equipe1 = [];
         let equipe2 = [];
+        let jogadoresEquipe1 = [];
+        let jogadoresEquipe2 = [];
         const jogadoresSelecionados = [...selectedPlayers];
     
         // Array para armazenar as últimas 5 combinações de equipes
@@ -32,6 +34,8 @@ const Body = () => {
         while (diferencaMedia > valorDiffMedia && iteracoes < 400) { 
             equipe1 = [];
             equipe2 = [];
+            jogadoresEquipe1 = [];
+            jogadoresEquipe2 = [];
             iteracoes++;
     
             const jogadoresEmbaralhados = jogadoresSelecionados
@@ -41,8 +45,10 @@ const Body = () => {
             for (let i = 0; i < jogadoresEmbaralhados.length; i++) {
                 if (i % 2 === 0) {
                     equipe1.push(jogadoresEmbaralhados[i]);
+                    jogadoresEquipe1.push(jogadoresEmbaralhados[i].name)
                 } else {
                     equipe2.push(jogadoresEmbaralhados[i]);
+                    jogadoresEquipe2.push(jogadoresEmbaralhados[i].name)
                 }
             }
     
@@ -93,7 +99,7 @@ const Body = () => {
         if (diferencaMedia <= valorDiffMedia) {
             router.push({
                 pathname: '/teamsDrawn',
-                query: { equipe1: JSON.stringify(equipe1), equipe2: JSON.stringify(equipe2) },
+                query: { equipe1: JSON.stringify(jogadoresEquipe1), equipe2: JSON.stringify(jogadoresEquipe2) },
             });
         } else {
             console.log("Não foi possível encontrar equipes adequadas após 200 iterações.");

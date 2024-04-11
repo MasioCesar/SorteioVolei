@@ -3,47 +3,52 @@ import { useRouter } from 'next/router';
 import { PlayerDraw } from '../components/playerDraw';
 import Header from '../components/header';
 import { Button } from '@mui/material';
-import { savedGames, updateGames } from '../context/firebase';
+import { getTeams, savedGames, updateGames } from '../context/firebase';
+import { GetTeams } from '../context/getPlayers';
 
 const TeamsDrawn = () => {
     const router = useRouter();
     const { equipe1, equipe2 } = router.query;
 
-    const [showVs, setShowVs] = useState(false);
+    const [jogadoresEquipe1, setJogadoresEquipe1] = useState([]);
+    const [jogadoresEquipe2, setJogadoresEquipe2] = useState([]);
 
+    const [showVs, setShowVs] = useState(false);
     const [winPercentage1, setWinPercentage1] = useState(0);
     const [winPercentage2, setWinPercentage2] = useState(0);
 
     useEffect(() => {
-        if (equipe1 && equipe2) {
+        if (!equipe1 || !equipe2) return; // Early return if equipe1 or equipe2 are not available
+
+        const fetchData = async () => {
             try {
-                const parsedEquipe1 = JSON.parse(equipe1);
-                const parsedEquipe2 = JSON.parse(equipe2);
+                const team1 = await getTeams(JSON.parse(equipe1));
+                const team2 = await getTeams(JSON.parse(equipe2));
+                setJogadoresEquipe1(team1);
+                setJogadoresEquipe2(team2);
+            } catch (error) {
+                console.error('Erro ao obter os times:', error);
+            }
+        };
 
-                const overall1 = calculateOverall(parsedEquipe1);
-                const overall2 = calculateOverall(parsedEquipe2);
+        fetchData();
+    }, [equipe1, equipe2]);
 
+    useEffect(() => {
+        if (jogadoresEquipe1.length > 0 && jogadoresEquipe2.length > 0) {
+            try {
+                const overall1 = calculateOverall(jogadoresEquipe1);
+                const overall2 = calculateOverall(jogadoresEquipe2);
                 const diff = overall1 - overall2;
-
                 const percentage1 = Math.max(0, Math.min(100, 100 * (diff / overall2)) + 50);
                 const percentage2 = 100 - percentage1;
-
                 setWinPercentage1(percentage1.toFixed(0));
                 setWinPercentage2(percentage2.toFixed(0));
             } catch (error) {
                 console.error('Erro ao analisar os dados da equipe:', error);
             }
         }
-    }, [equipe1, equipe2]);
-
-    const calculateOverall = (team) => {
-        const overall = team.reduce((acc, player) => {
-            return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
-        }, 0);
-
-        return overall / team.length;
-    };
-
+    }, [jogadoresEquipe1, jogadoresEquipe2]);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -53,16 +58,17 @@ const TeamsDrawn = () => {
         return () => clearTimeout(timeout);
     }, []);
 
-    if (!equipe1 || !equipe2) {
-        return <div>Carregando...</div>;
-    }
+    const calculateOverall = (team) => {
+        const overall = team.reduce((acc, player) => {
+            return acc + player.attack + player.defense + player.block + player.serve + player.pass + player.lifting;
+        }, 0);
 
-    const parsedEquipe1 = JSON.parse(equipe1);
-    const parsedEquipe2 = JSON.parse(equipe2);
+        return overall / team.length;
+    };
 
     const handleWinner = async (winnerTeam) => {
-        const winnerPlayers = winnerTeam === 'Azul' ? parsedEquipe1 : parsedEquipe2;
-        const allPlayers = parsedEquipe1.concat(parsedEquipe2);
+        const winnerPlayers = winnerTeam === 'Azul' ? jogadoresEquipe1 : jogadoresEquipe2;
+        const allPlayers = jogadoresEquipe1.concat(jogadoresEquipe2);
 
         const password = prompt(`Digite a senha para confirmar que o time ${winnerTeam} venceu`);
 
@@ -75,13 +81,17 @@ const TeamsDrawn = () => {
                 }
                 await updateGames(player);
             }
-            savedGames(parsedEquipe1, parsedEquipe2, winnerTeam);
+            savedGames(jogadoresEquipe1, jogadoresEquipe2, winnerTeam);
 
             router.push('/');
         } else {
             console.log("Senha incorreta. Ação cancelada.");
         }
     };
+
+    if (!equipe1 || !equipe2) {
+        return <div>Carregando...</div>;
+    }
 
     return (
         <div>
@@ -107,7 +117,7 @@ const TeamsDrawn = () => {
                         <div className='flex-1'>
                             <div className='bg-[#2196F3] p-2 rounded-t-md bold text-2xl text-gray-100'>Time Azul</div>
                             <div className="border-2 px-10 border-[#2196F3] rounded-b-md pt-2">
-                                <PlayerDraw players={parsedEquipe1} />
+                                <PlayerDraw players={jogadoresEquipe1} />
                             </div>
                         </div>
                     </div>
@@ -120,9 +130,9 @@ const TeamsDrawn = () => {
                 <div className="w-full flex justify-center">
                     <div className='flex grid-cols-2 gap-4'>
                         <div className='flex-1'>
-                        <div className='bg-[#F44336] p-2 rounded-t-md bold text-2xl text-gray-100'>Time Vermelho</div>
+                            <div className='bg-[#F44336] p-2 rounded-t-md bold text-2xl text-gray-100'>Time Vermelho</div>
                             <div className="border-2 px-10 border-[#F44336] rounded-b-md pt-2">
-                                <PlayerDraw players={parsedEquipe2} />
+                                <PlayerDraw players={jogadoresEquipe2} />
                             </div>
                         </div>
                     </div>
