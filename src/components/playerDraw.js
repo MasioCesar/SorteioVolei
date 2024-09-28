@@ -65,7 +65,7 @@ export const PlayerDraw = ({ players }) => {
                                 <div className="player-picture">
                                     <div className="logo">
                                         <Image
-                                            src={player.imgURL}
+                                            src={'/user.png'}
                                             alt={player.name}
                                             width={300}
                                             height={200}

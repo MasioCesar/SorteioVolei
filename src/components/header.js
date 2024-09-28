@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 const Header = () => {
 
@@ -14,6 +15,11 @@ const Header = () => {
             <div className="flex-grow flex justify-center mr-14">
                 <Link href="/">
                     <img src="/voleifisio.png" alt="VoleiFisio" className="w-20" />
+                </Link>
+            </div>
+            <div>
+                <Link href="/addPlayerForm">
+                    <PersonAddAltIcon className="text-gray-300" style={{ fontSize: 40 }} />
                 </Link>
             </div>
         </div>

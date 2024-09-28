@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { addDoc, collection, doc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { format } from 'date-fns';
 
 const firebaseConfig = {
@@ -24,7 +24,7 @@ export const getPlayers = async (setPlayers) => {
     const playerPromises = querySnapshot.docs.map(async (doc) => {
         const player = doc.data();
         player.id = parseInt(doc.id, 10);
-        player.imgURL = await getPictureUser(player.id);
+        player.imgURL = '/user.png';
         return player;
     });
 
@@ -121,4 +121,46 @@ export const getTeams = async (team) => {
     });
 
     return teamPlayers;
+};
+
+
+// Função para adicionar jogador com o imgURL sendo o ID do usuário
+export const addPlayerCard = async (playerData, playerImageFile) => {
+    try {
+        let imgURL = "";
+
+        // Verifica se há uma imagem e faz o upload para o Firebase Storage
+        if (playerImageFile) {
+            // Usar o ID do jogador como nome do arquivo no Firebase Storage
+            const storageRef = ref(storage, `players/${playerData.id}.png`);
+            const uploadTask = uploadBytesResumable(storageRef, playerImageFile);
+
+            // Espera o upload concluir e obtém o URL da imagem
+            await new Promise((resolve, reject) => {
+                uploadTask.on(
+                    'state_changed',
+                    null,
+                    (error) => reject(error),
+                    async () => {
+                        // Obtém o URL público da imagem após o upload
+                        imgURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve();
+                    }
+                );
+            });
+        }
+
+        // Adiciona os dados do jogador no Firestore, incluindo o imgURL (que agora é o URL da imagem)
+        const playersCollection = collection(db, 'players');
+        const newPlayer = {
+            ...playerData, // Nome, estatísticas, etc.
+            imgURL,        // URL da imagem do Firebase Storage
+        };
+
+        await addDoc(playersCollection, newPlayer);
+
+        console.log("Jogador adicionado com sucesso:", newPlayer);
+    } catch (error) {
+        console.error("Erro ao adicionar jogador:", error);
+    }
 };
